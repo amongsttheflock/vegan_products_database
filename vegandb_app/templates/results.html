@@ -1,0 +1,16 @@
+{% extends 'home.html' %}
+{% block content %}
+{% for product in products %}
+<div class="col-md-4">
+  <div class="thumbnail">
+    <a href="/product_details/{{ product.id }}">
+      <img src="{{ product.photo.url }}" alt="{{ product.name }}" style="width:100%">
+      <div class="caption">
+        <strong>{{ product.name }}</strong><br>
+        Producent: {{ product.manufacturer }}
+      </div>
+    </a>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

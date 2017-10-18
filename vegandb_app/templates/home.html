@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Baza wegańskich produktów</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    img {
+        display: block;
+        margin: auto;
+    }
+
+    div.gallery {
+        border: 1px solid #ccc;
+    }
+
+    div.gallery:hover {
+        border: 1px solid #777;
+    }
+
+    div.gallery img {
+        width: 100%;
+        height: auto;
+    }
+
+    div.desc {
+        padding: 15px;
+        text-align: center;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .responsive {
+        padding: 0 6px;
+        float: left;
+        width: 24.99999%;
+    }
+
+    @media only screen and (max-width: 700px){
+        .responsive {
+            width: 49.99999%;
+            margin: 6px 0;
+        }
+    }
+
+    @media only screen and (max-width: 500px){
+        .responsive {
+            width: 100%;
+        }
+    }
+
+    .clearfix:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">VeganDB</a>
+      </div>
+      <form class="navbar-form navbar-left" action="/results" method="GET">
+        <div class="form-group">
+          <input type="text" name='keyword' class="form-control" placeholder="wyszukaj produkt...">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="sel1">Sklep</label>
+          <select name='shop' class="form-control" id="sel1">
+            <option value=0 selected>wybierz sklep</option>
+            {% for shop in shops %}
+            <option value={{ shop.id }}>{{ shop }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="sel1">Kategoria</label>
+          <select name='category' class="form-control" id="sel1">
+            <option value=0 selected>wybierz kategorię</option>
+            {% for category in categories %}
+            <option value={{ category.0 }}>{{ category.1 }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="sel1">Producent</label>
+          <select name='manufacturer' class="form-control" id="sel1">
+            <option value=0 selected>wybierz producenta</option>
+            {% for manufacturer in manufacturers %}
+            <option value={{ manufacturer.id }}>{{ manufacturer.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button class="btn btn-default" type="submit">
+          <i class="glyphicon glyphicon-search"></i>
+        </button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Rejestracja</a></li>
+        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Logowanie</a></li>
+        {% if request.user.is_authenticated %}
+          <li><a href="/user_dash"><span class="glyphicon glyphicon-apple"></span> Moje konto</a></li>
+          <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Wyloguj</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+</body>
+
+</html>

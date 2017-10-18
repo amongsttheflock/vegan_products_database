@@ -1,0 +1,10 @@
+{% extends 'home.html' %}
+{% block content %}
+<h2>{{ user }}</h2>
+<h4>Dodanych produktów: {{ products|length }}</h4>
+<div>
+    {% for product in products %}
+        <a href="/product_details/{{ product.id }}">{{ product.name }}</a><br>
+    {% endfor %}
+</div>
+{% endblock %}

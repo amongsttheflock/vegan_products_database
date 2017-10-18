@@ -1,0 +1,23 @@
+{% extends 'home.html' %}
+{% block content %}
+<div class="media">
+  <div class="media-left">
+    <img src="{{ p_details.photo.url }}" class="media-object" style="width:500px">
+  </div>
+  <div class="media-body">
+    <h3 class="media-heading">{{ p_details.name }}</h3>
+    <h4 class="media-heading">Producent: {{ p_details.manufacturer }}</h4>
+    <h5 class="media-heading">Data dodania: {{ p_details.added }}</h5>
+    <h5 class="media-heading">Dodane przez: <a href="/user/{{ p_details.user.id }}">{{ p_details.user }}</a></h5>
+    <p>{{ p_details.description }}</p><br>
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="{{ p_details.ingredients.url }}">
+          <img src="{{ p_details.ingredients.url }}" alt="{{ p_details.name }}" width="300" height="200">
+        </a>
+        <div class="desc">Skład</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
