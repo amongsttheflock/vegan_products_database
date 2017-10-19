@@ -3,14 +3,17 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
-from vegandb_app.views import SearchView, ResultsView, signup, ShowProductView, UserDetailView, UserDashView, AddProductView, ModifyProductView
+from vegandb_app.views import SearchView, ResultsView, signup, ShowProductView, UserDetailView, UserDashView, AddProductView, ModifyProductView, AddShopView, AddManufacturerView, DeleteProductView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', SearchView.as_view(), name='home'),
     url(r'^results/$', ResultsView.as_view(), name='results'),
     url(r'^add_product/$', AddProductView.as_view(), name='add_product'),
-    url(r'^modify_product/(?P<pk>(\d)+)$', ModifyProductView.as_view(), name='add_product'),
+    url(r'^add_shop/(?P<product_id>(\d)+)$', AddShopView.as_view(), name='add_shop'),
+    url(r'^add_manufacturer/(?P<product_id>(\d)+)$', AddManufacturerView.as_view(), name='add_manufacturer'),
+    url(r'^modify_product/(?P<pk>(\d)+)$', ModifyProductView.as_view(), name='modify_product'),
+    url(r'^delete_product/(?P<pk>(\d)+)$', DeleteProductView.as_view(), name='delete_product'),
     url(r'^product_details/(?P<product_id>(\d)+)', ShowProductView.as_view(), name='product_details'),
     url(r'^user_dash/', UserDashView.as_view(), name='user_dash'),
     url(r'^user/(?P<user_id>(\d)+)', UserDetailView.as_view(), name='user_view'),

@@ -15,21 +15,21 @@ from django.views import View
 from django.views.generic import DetailView
 from random import randint
 from .models import Shop, Product, Manufacturer, CATEGORIES
-from .forms import SignUpForm, ProductForm
+from .forms import SignUpForm, ProductForm, ManufacturerForm, ShopForm
 
 
 class SearchView(View):
     def get(self, request):
-        p_list = [randint(1, len(Product.objects.all())) for i in range(6)]
-        ctx = {
-            'p1': Product.objects.get(pk=p_list[0]),
-            'p2': Product.objects.get(pk=p_list[1]),
-            'p3': Product.objects.get(pk=p_list[2]),
-            'p4': Product.objects.get(pk=p_list[3]),
-            'p5': Product.objects.get(pk=p_list[4]),
-            'p6': Product.objects.get(pk=p_list[5]),
-        }
-        return render(request, "carousel.html", ctx)
+        # p_list = [randint(1, len(Product.objects.all())) for i in range(6)]
+        # ctx = {
+        #     'p1': Product.objects.get(pk=p_list[0]),
+        #     'p2': Product.objects.get(pk=p_list[1]),
+        #     'p3': Product.objects.get(pk=p_list[2]),
+        #     'p4': Product.objects.get(pk=p_list[3]),
+        #     'p5': Product.objects.get(pk=p_list[4]),
+        #     'p6': Product.objects.get(pk=p_list[5]),
+        # }
+        return render(request, "carousel.html")
 
 
 class ResultsView(View):
@@ -106,4 +106,44 @@ class ModifyProductView(UpdateView):
     model = Product
     fields = '__all__'
     template_name = 'modify_product.html'
+
+    def get_success_url(self):
+        return reverse('product_details', kwargs={'product_id': self.object.id})
+
+
+class DeleteProductView(DeleteView):
+    model = Product
+    template_name = 'product_confirm_delete.html'
     success_url = reverse_lazy('user_dash')
+
+
+class AddShopView(CreateView):
+    form_class = ShopForm
+    template_name = 'add_shop.html'
+
+    def get_initial(self):
+        initials = super(AddShopView, self).get_initial()
+        initials['user'] = self.request.user
+        return initials
+
+    def get_success_url(self):
+        if self.kwargs['product_id'] != '0':
+            return reverse('modify_product', kwargs={'pk': self.kwargs['product_id']})
+        else:
+            return reverse_lazy('add_product')
+
+
+class AddManufacturerView(CreateView):
+    form_class = ManufacturerForm
+    template_name = 'add_manufacturer.html'
+
+    def get_initial(self):
+        initials = super(AddManufacturerView, self).get_initial()
+        initials['user'] = self.request.user
+        return initials
+
+    def get_success_url(self):
+        if self.kwargs['product_id'] != '0':
+            return reverse('modify_product', kwargs={'pk': self.kwargs['product_id']})
+        else:
+            return reverse_lazy('add_product')

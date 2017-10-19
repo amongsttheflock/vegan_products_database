@@ -9,6 +9,13 @@
     <h4 class="media-heading">Producent: {{ p_details.manufacturer }}</h4>
     <h5 class="media-heading">Data dodania: {{ p_details.added }}</h5>
     <h5 class="media-heading">Dodane przez: <a href="/user/{{ p_details.user.id }}">{{ p_details.user }}</a></h5>
+    {% if request.user.is_authenticated %}
+      {% if request.user.id == p_details.user.id  %}
+        <a href="/delete_product/{{ p_details.id }}"><button type="button" class="btn btn-danger btn-xs">X</button></a>
+        <a href="/modify_product/{{ p_details.id }}"><button type="button" class="btn btn-default btn-xs">Edytuj</button></a><br>
+        {% endif %}
+    {% endif %}
+    <hr>
     <p>{{ p_details.description }}</p><br>
     <div class="responsive">
       <div class="gallery">

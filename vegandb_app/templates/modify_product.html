@@ -1,6 +1,10 @@
 {% extends 'home.html' %}
 {% block content %}
 <div class="form-group col-xs-4">
+    <p>*Jeśli w formularzu brakuje jakiegoś sklepu lub producenta:
+        <a href="/add_shop/{{ product.id }}">dodaj sklep</a>,
+        <a href="/add_manufacturer/{{ product.id }}">dodaj producenta</a>
+    </p>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}

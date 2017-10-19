@@ -45,3 +45,33 @@ class ProductForm(forms.ModelForm):
         widgets = {
             'user': forms.HiddenInput,
         }
+
+
+class ShopForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ShopForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs = {
+            'class': 'form-control'
+        }
+
+    class Meta:
+        model = Shop
+        fields = '__all__'
+        widgets = {
+            'user': forms.HiddenInput,
+        }
+
+
+class ManufacturerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ManufacturerForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs = {
+            'class': 'form-control'
+        }
+
+    class Meta:
+        model = Manufacturer
+        fields = '__all__'
+        widgets = {
+            'user': forms.HiddenInput,
+        }
