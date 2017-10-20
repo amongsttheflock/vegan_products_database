@@ -2,7 +2,7 @@
 {% block content %}
 <div class="media">
   <div class="media-left">
-    <img src="{{ p_details.photo.url }}" class="media-object" style="width:500px">
+    <img src="{{ p_details.photo.url }}" class="media-object" style="max-height:600px; max-width:600px">
   </div>
   <div class="media-body">
     <h3 class="media-heading">{{ p_details.name }}</h3>
@@ -13,10 +13,13 @@
       {% if request.user.id == p_details.user.id  %}
         <a href="/delete_product/{{ p_details.id }}"><button type="button" class="btn btn-danger btn-xs">X</button></a>
         <a href="/modify_product/{{ p_details.id }}"><button type="button" class="btn btn-default btn-xs">Edytuj</button></a><br>
-        {% endif %}
+      {% else %}
+        <a href="#"><button type="button" class="btn btn-default btn-xs">Zgłoś</button></a><br>
+      {% endif %}
+    {% else %}
+      <a href="#"><button type="button" class="btn btn-default btn-xs">Zgłoś</button></a><br>
     {% endif %}
     <hr>
-    <p>{{ p_details.description }}</p><br>
     <div class="responsive">
       <div class="gallery">
         <a target="_blank" href="{{ p_details.ingredients.url }}">
@@ -25,6 +28,7 @@
         <div class="desc">Skład</div>
       </div>
     </div>
+    <p>{{ p_details.description }}</p><br>
   </div>
 </div>
 {% endblock %}

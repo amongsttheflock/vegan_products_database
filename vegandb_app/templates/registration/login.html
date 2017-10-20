@@ -1,12 +1,26 @@
 {% extends 'home.html' %}
-
+{% load widget_tweaks %}
 {% block title %}Login{% endblock %}
 
 {% block content %}
+<div class="form-group col-xs-4">
   <h2>Logowanie</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Zaloguj</button>
+    {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field|add_class:'form-control' }}
+        {% for error in field.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-default">Zaloguj</button>
   </form>
+</div>
 {% endblock %}
