@@ -1,11 +1,11 @@
 {% extends 'home.html' %}
 {% block content %}
-<h2>Lososowe produkty z bazy</h2>
+<h2>Ostatnio dodane:</h2>
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
   <!-- Wrapper for slides -->
   <div class="carousel-inner">
     <div class="item active">
-      <img src="{{ p1.photo.url }}" alt="{{ p1.name }}" style="height:500px;">
+      <a href="/product_details/{{ p1.id }}"><img src="{{ p1.photo.url }}" alt="{{ p1.name }}" style="height:500px;"></a>
     </div>
 
     <div class="item">

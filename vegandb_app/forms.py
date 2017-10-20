@@ -24,6 +24,9 @@ class ShopForm(forms.ModelForm):
     class Meta:
         model = Shop
         fields = '__all__'
+        widgets = {
+            'user': forms.HiddenInput,
+        }
 
 
 class ManufacturerForm(forms.ModelForm):
@@ -36,3 +39,6 @@ class ManufacturerForm(forms.ModelForm):
     class Meta:
         model = Manufacturer
         fields = '__all__'
+        widgets = {
+            'user': forms.HiddenInput,
+        }

@@ -58,3 +58,9 @@ div.desc {
 #taxi img {
     height: 500px;
 }
+
+#thumb-description{
+   position:absolute;
+   bottom:0;
+   left:0;
+}

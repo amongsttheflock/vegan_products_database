@@ -7,35 +7,28 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
+from django import forms
 from django.views.generic.edit import FormView, CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from django.views import View
 from django.views.generic import DetailView
-from random import randint
 from .models import Shop, Product, Manufacturer, CATEGORIES
 from .forms import SignUpForm, ManufacturerForm, ShopForm
 
 
 class SearchView(View):
     def get(self, request):
-        # all_ids = Product.objects.values_list('id', flat=True).order_by('-id')
-        # product_list = set()
-        # while len(product_list) != 6:
-        #     for i in all_ids:
-        #         product_list.add(Product.objects.get(pk=i))
+        products = Product.objects.order_by('-added')[:6]
 
-        # products = list(product_list)
-
-        # ctx = {
-        #     'p1': products[0],
-        #     'p2': products[1],
-        #     'p3': products[2],
-        #     'p4': products[3],
-        #     'p5': products[4],
-        #     'p6': products[5],
-        # }
-        return render(request, "home.html")
+        ctx = {
+            'p1': products[0],
+            'p2': products[1],
+            'p3': products[2],
+            'p4': products[3],
+            'p5': products[4],
+            'p6': products[5],
+        }
+        return render(request, "carousel.html", ctx)
 
 
 class ResultsView(View):
@@ -64,7 +57,9 @@ class ResultsView(View):
 class ShowProductView(View):
     def get(self, request, product_id):
         p_details = Product.objects.get(pk=product_id)
-        return render(request, 'product_details.html', {'p_details': p_details})
+        category = CATEGORIES[p_details.categories][1]
+        return render(request, 'product_details.html', {'p_details': p_details,
+                                                        'category': category})
 
 
 def signup(request):

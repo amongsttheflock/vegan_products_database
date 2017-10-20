@@ -2,6 +2,9 @@
 {% block content %}
 <h2>Heja, hejka {{ request.user.username }}</h2>
 <h4>Dodanych produktów: {{ products|length }}</h4>
+<p>
+  <a href="/add_product"><button type="button" class="btn btn-default btn-md">Dodaj nowy produkt</button></a>
+</p>
 <div>
   <table class="table table-hover">
     {% for product in products %}
