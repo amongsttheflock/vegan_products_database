@@ -5,28 +5,16 @@
   <!-- Wrapper for slides -->
   <div class="carousel-inner">
     <div class="item active">
-      <a href="/product_details/{{ p1.id }}"><img src="{{ p1.photo.url }}" alt="{{ p1.name }}" style="height:500px;"></a>
+      {% with products|first as first_product %}
+        <a href="/product_details/{{ first_product.id }}"><img src="{{ first_product.photo.url }}" alt="{{ first_product.name }}" style="height:500px;"></a>
+      {% endwith %}
     </div>
 
-    <div class="item">
-      <img src="{{ p2.photo.url }}" alt="{{ p2.name }}" style="height:500px;">
-    </div>
-
-    <div class="item">
-      <img src="{{ p3.photo.url }}" alt="{{ p3.name }}" style="height:500px;">
-    </div>
-
-    <div class="item">
-      <img src="{{ p4.photo.url }}" alt="{{ p4.name }}" style="height:500px;">
-    </div>
-
-    <div class="item">
-      <img src="{{ p5.photo.url }}" alt="{{ p5.name }}" style="height:500px;">
-    </div>
-
-    <div class="item">
-      <img src="{{ p6.photo.url }}" alt="{{ p6.name }}" style="height:500px;">
-    </div>
+    {% for p in products|slice:"1:6" %}
+      <div class="item">
+        <a href="/product_details/{{ p.id }}"><img src="{{ p.photo.url }}" alt="{{ p.name }}" style="height:500px;"></a>
+      </div>
+    {% endfor %}
   </div>
 
   <!-- Left and right controls -->

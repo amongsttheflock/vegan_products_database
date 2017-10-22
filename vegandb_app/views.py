@@ -20,15 +20,7 @@ class SearchView(View):
     def get(self, request):
         products = Product.objects.order_by('-added')[:6]
 
-        ctx = {
-            'p1': products[0],
-            'p2': products[1],
-            'p3': products[2],
-            'p4': products[3],
-            'p5': products[4],
-            'p6': products[5],
-        }
-        return render(request, "carousel.html", ctx)
+        return render(request, "carousel.html", {'products': products, })
 
 
 class ResultsView(View):
@@ -111,11 +103,6 @@ class ModifyProductView(LoginRequiredMixin, UpdateView):
     model = Product
     fields = '__all__'
     template_name = 'modify_product.html'
-
-    def get_initial(self):
-        initials = super(ModifyProductView, self).get_initial()
-        initials['user'] = self.request.user
-        return initials
 
     def get_success_url(self):
         return reverse('product_details', kwargs={'product_id': self.object.id})

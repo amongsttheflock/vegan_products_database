@@ -40,3 +40,13 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Messages(models.Model):
+    contetnt = models.TextField(null=False)
+    author = models.ForeignKey(User, related_name='author')
+    recipient = models.ForeignKey(User, related_name='recipient')
+
+# Ma być relacja M2M z Produktem - połączenie zaczep w Product
+class Category(models.Model):
+    name = models.CharField(max_length=60)
