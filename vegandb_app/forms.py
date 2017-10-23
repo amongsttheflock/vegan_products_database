@@ -42,3 +42,21 @@ class ManufacturerForm(forms.ModelForm):
         widgets = {
             'user': forms.HiddenInput,
         }
+
+
+class AddProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+        widgets = {
+            'user': forms.HiddenInput,
+        }
+
+
+class ModifyProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+        widgets = {
+            'user': forms.HiddenInput,
+        }

@@ -48,5 +48,7 @@ class Messages(models.Model):
     recipient = models.ForeignKey(User, related_name='recipient')
 
 # Ma być relacja M2M z Produktem - połączenie zaczep w Product
+
+
 class Category(models.Model):
     name = models.CharField(max_length=60)

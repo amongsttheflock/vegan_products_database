@@ -13,7 +13,7 @@ from django.views.generic.list import ListView
 from django.views import View
 from django.views.generic import DetailView
 from .models import Shop, Product, Manufacturer, CATEGORIES
-from .forms import SignUpForm, ManufacturerForm, ShopForm
+from .forms import SignUpForm, ManufacturerForm, ShopForm, AddProductForm, ModifyProductForm
 
 
 class SearchView(View):
@@ -49,7 +49,7 @@ class ResultsView(View):
 class ShowProductView(View):
     def get(self, request, product_id):
         p_details = Product.objects.get(pk=product_id)
-        category = CATEGORIES[p_details.categories][1]
+        category = CATEGORIES[p_details.categories - 1][1]
         return render(request, 'product_details.html', {'p_details': p_details,
                                                         'category': category})
 
@@ -88,8 +88,7 @@ class UserDashView(LoginRequiredMixin, View):
 
 
 class AddProductView(LoginRequiredMixin, CreateView):
-    model = Product
-    fields = '__all__'
+    form_class = AddProductForm
     template_name = 'add_product.html'
     success_url = reverse_lazy('user_dash')
 
@@ -98,11 +97,23 @@ class AddProductView(LoginRequiredMixin, CreateView):
         initials['user'] = self.request.user
         return initials
 
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
 
 class ModifyProductView(LoginRequiredMixin, UpdateView):
     model = Product
-    fields = '__all__'
+    form_class = ModifyProductForm
     template_name = 'modify_product.html'
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('product_details', kwargs={'product_id': self.object.id})
@@ -123,6 +134,12 @@ class AddShopView(LoginRequiredMixin, CreateView):
         initials['user'] = self.request.user
         return initials
 
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
     def get_success_url(self):
         if self.kwargs['product_id'] != '0':
             return reverse('modify_product', kwargs={'pk': self.kwargs['product_id']})
@@ -138,6 +155,12 @@ class AddManufacturerView(LoginRequiredMixin, CreateView):
         initials = super(AddManufacturerView, self).get_initial()
         initials['user'] = self.request.user
         return initials
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         if self.kwargs['product_id'] != '0':
