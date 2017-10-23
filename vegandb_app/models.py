@@ -43,12 +43,12 @@ class Product(models.Model):
 
 
 class Messages(models.Model):
-    contetnt = models.TextField(null=False)
+    title = models.CharField(null=False, max_length=140, verbose_name='Tytuł')
+    content = models.TextField(null=False, verbose_name='Treść')
     author = models.ForeignKey(User, related_name='author')
-    recipient = models.ForeignKey(User, related_name='recipient')
+    recipient = models.ForeignKey(User, related_name='recipient', verbose_name='Odbiorca')
+    sent = models.DateField(auto_now_add=True)
 
 # Ma być relacja M2M z Produktem - połączenie zaczep w Product
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=60)
+# class Category(models.Model):
+#     name = models.CharField(max_length=60)

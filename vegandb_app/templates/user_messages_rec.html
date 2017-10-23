@@ -1,0 +1,17 @@
+{% extends 'user_messages.html' %}
+{% block msg %}
+<table class="table table-striped">
+  <tr>
+    <th>Tytuł:</th>
+    <th>Data otrzymania:</th>
+    <th>Wysłana przez:</th>
+  </tr>
+  {% for message in messages %}
+  <tr>
+    <td><a href="/message_details/{{ message.id }}">{{ message.title }}</a></td>
+    <td>{{ message.sent }}</td>
+    <td>{{ message.author }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Shop, Product, Manufacturer
+from .models import Shop, Product, Manufacturer, Messages
 
 
 class ProductInlineAdmin(admin.TabularInline):
@@ -29,6 +29,11 @@ class ManufacturerAdmin(admin.ModelAdmin):
     list_display = ('name', 'user',)
 
 
+class MessagesAdmin(admin.ModelAdmin):
+    list_display = ('content', 'author', 'recipient', 'sent',)
+
+
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Manufacturer, ManufacturerAdmin)
+admin.site.register(Messages, MessagesAdmin)

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Shop, Manufacturer, Product, CATEGORIES
+from .models import Shop, Manufacturer, Product, CATEGORIES, Messages
 
 
 class SignUpForm(UserCreationForm):
@@ -59,4 +59,13 @@ class ModifyProductForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'user': forms.HiddenInput,
+        }
+
+
+class AddMessageForm(forms.ModelForm):
+    class Meta:
+        model = Messages
+        fields = '__all__'
+        widgets = {
+            'author': forms.HiddenInput,
         }

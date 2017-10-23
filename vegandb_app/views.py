@@ -12,8 +12,8 @@ from django.views.generic.edit import FormView, CreateView, DeleteView, UpdateVi
 from django.views.generic.list import ListView
 from django.views import View
 from django.views.generic import DetailView
-from .models import Shop, Product, Manufacturer, CATEGORIES
-from .forms import SignUpForm, ManufacturerForm, ShopForm, AddProductForm, ModifyProductForm
+from .models import Shop, Product, Manufacturer, CATEGORIES, Messages
+from .forms import SignUpForm, ManufacturerForm, ShopForm, AddProductForm, ModifyProductForm, AddMessageForm
 
 
 class SearchView(View):
@@ -85,6 +85,47 @@ class UserDashView(LoginRequiredMixin, View):
     def get(self, request):
         products = Product.objects.filter(user_id=request.user.id).order_by("-added")
         return render(request, 'user_dashboard.html', {'products': products})
+
+
+class UserMessagesView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'user_messages.html')
+
+
+class UserMessagesReceivedView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        messages = Messages.objects.filter(recipient=request.user.id).order_by("-sent")
+        return render(request, 'user_messages_rec.html', {'messages': messages})
+
+
+class UserMessagesSentView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        messages = Messages.objects.filter(author=request.user.id).order_by("-sent")
+        return render(request, 'user_messages_sent.html', {'messages': messages})
+
+
+class MessageView(LoginRequiredMixin, DetailView):
+    model = Messages
+    template_name = 'message_details.html'
+
+
+class CreateMessageView(LoginRequiredMixin, CreateView):
+    form_class = AddMessageForm
+    template_name = 'create_message.html'
+    success_url = reverse_lazy('user_messages')
+
+    def get_initial(self):
+        initials = super(CreateMessageView, self).get_initial()
+        initials['author'] = self.request.user
+        return initials
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.author = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class AddProductView(LoginRequiredMixin, CreateView):

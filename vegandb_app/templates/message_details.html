@@ -1,0 +1,8 @@
+{% extends 'home.html' %}
+{% block content %}
+<h2>{{ messages.title }}</h2>
+<h4>{{ messages.sent }} od {{ messages.author }}</h4>
+<p>
+  <i>{{ messages.content }}</i>
+</p>
+{% endblock %}
