@@ -8,6 +8,7 @@
     <h3 class="media-heading">{{ p_details.name }}</h3>
     <h4 class="media-heading">Producent: {{ p_details.manufacturer }}</h4>
     <h4 class="media-heading">Kategoria: {{ category }}</h4>
+    <h5 class="media-heading">Dostępne w: {{ p_details.shops.all|join:", " }}</h5>
     <h5 class="media-heading">Data dodania: {{ p_details.added }}</h5>
     <h5 class="media-heading">Dodane przez: <a href="/user/{{ p_details.user.id }}">{{ p_details.user }}</a></h5>
     {% if request.user.is_authenticated %}
